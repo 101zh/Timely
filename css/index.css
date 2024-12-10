@@ -1,0 +1,97 @@
+body,
+h1 {
+    font-family: jost-semi, Arial, sans-serif;
+    background-color: black;
+    color: white;
+    margin: 0;
+}
+
+/* Navigation Bar Stuff */
+
+.navButton {
+    padding: 1rem;
+}
+
+#logo {
+    margin-right: auto;
+    align-self: inherit;
+}
+
+#navbar {
+    display: flex;
+    flex-direction: row;
+    max-height: 5rem;
+}
+
+/* Content Stuff */
+
+#title {
+    font-family: jost-black;
+    text-align: center;
+    font-size: 10rem;
+}
+
+#time,
+#date {
+    text-align: center;
+    font-size: 3rem;
+}
+
+#blockcontainer {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+}
+
+.descrip {
+    margin-top: 0.5rem;
+    margin-left: auto;
+    margin-right: auto;
+    flex-grow: 10;
+}
+
+.percent {
+
+    text-align: center;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.block {
+    display: flex;
+    flex-direction: column;
+    background-color: darkslategray;
+    margin: 1rem;
+    border-radius: 2rem;
+    width: 16rem;
+    height: 9rem;
+}
+
+.progressbar {
+    background-color: red;
+    width: 85%;
+    /*Outline of Progress Bar*/
+    padding: 0;
+    /*Height of filling for progress bar*/
+    height: 0.25rem;
+    /*how round the element is*/
+    border-radius: 2rem;
+    /* (height of inner div) / 2 + padding */
+
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 0.75rem;
+}
+
+.progressbar>div {
+    top: auto;
+    bottom: auto;
+    background-color: lightblue;
+    width: 50%;
+    height: 100%;
+    /*how round the element is*/
+    border-radius: 2rem;
+}
