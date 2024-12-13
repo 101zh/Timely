@@ -36,6 +36,8 @@ var dEndOfYear = new Date(d.getFullYear() + 1, 0)
 var dEndOfMonth = new Date(d.getFullYear(), d.getMonth() + 1)
 var dEndOfWeek = new Date(d.getFullYear(), d.getMonth(), d.getDate() + (8 - d.getDay()))
 var dEndOfDay = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
+var dEndOfWorkDay = (new Date(d.getTime()));
+dEndOfWorkDay.setHours(16, 0, 0, 0);
 
 var weeksToDays = 7
 var daysToHours = 24
@@ -46,13 +48,24 @@ var secondsInAWeek = 7 * 24 * 60 * 60
 var secondsInADay = 24 * 60 * 60
 
 
-function givePercentageOfTimePeriod(dateStart, dateEnd, days) {
-    return 1 - (((dateEnd.getTime() - dateStart.getTime()) / 1000) / (days * 24 * 60 * 60))
+function givePercentageOfTimePeriod(dateStart, dateEnd, days, hoursPerDay) {
+    var percentage = 1 - (((dateEnd.getTime() - dateStart.getTime()) / 1000) / (days * hoursPerDay * 60 * 60))
+    if (percentage > 1) {
+        return -1
+    }
+
+    return percentage
 }
 
-console.log(givePercentageOfTimePeriod(d, dEndOfYear, 365))
-console.log(givePercentageOfTimePeriod(d, dEndOfMonth, list[d.getMonth()]))
-console.log(givePercentageOfTimePeriod(d, dEndOfWeek, 7))
-console.log(givePercentageOfTimePeriod(d, dEndOfDay, 1))
+console.log(givePercentageOfTimePeriod(d, dEndOfYear, 365, 24))
+console.log(givePercentageOfTimePeriod(d, dEndOfMonth, list[d.getMonth()], 24))
+console.log(givePercentageOfTimePeriod(d, dEndOfWeek, 7, 24))
+console.log(givePercentageOfTimePeriod(d, dEndOfDay, 1, 24))
+console.log(givePercentageOfTimePeriod(d, dEndOfWorkDay, 1, 8))
 
+// console.log("workDayStartHour"+"="+9+";"+ new Date(Date.now()+(10*365*24*60*60*1000)))
+// document.cookie = "workDayStartHour" + "=" + 9 + ";SameSite=Strict" + ";expires=" + new Date(Date.now() + (10 * 365 * 24 * 60 * 60 * 1000))
+
+
+// document.cookie.split(";")
 
