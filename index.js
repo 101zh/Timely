@@ -6,6 +6,8 @@ function createElementFromHTML(htmlString) {
     return div.firstChild;
 }
 
+var timeElement = document.getElementById("time")
+var dateElement = document.getElementById("date")
 var container = document.getElementById("blockcontainer");
 
 var content = `<div class="block">
@@ -31,12 +33,12 @@ for (let index = 0; index < 3; index++) {
 
 const list = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
-var d = new Date(Date.now())
-var dEndOfYear = new Date(d.getFullYear() + 1, 0)
-var dEndOfMonth = new Date(d.getFullYear(), d.getMonth() + 1)
-var dEndOfWeek = new Date(d.getFullYear(), d.getMonth(), d.getDate() + (8 - d.getDay()))
-var dEndOfDay = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1)
-var dEndOfWorkDay = (new Date(d.getTime()));
+var dNow = new Date(Date.now())
+var dEndOfYear = new Date(dNow.getFullYear() + 1, 0)
+var dEndOfMonth = new Date(dNow.getFullYear(), dNow.getMonth() + 1)
+var dEndOfWeek = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + (8 - dNow.getDay()))
+var dEndOfDay = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + 1)
+var dEndOfWorkDay = (new Date(dNow.getTime()));
 dEndOfWorkDay.setHours(16, 0, 0, 0);
 
 var weeksToDays = 7
@@ -57,11 +59,11 @@ function givePercentageOfTimePeriod(dateStart, dateEnd, days, hoursPerDay) {
     return percentage
 }
 
-console.log(givePercentageOfTimePeriod(d, dEndOfYear, 365, 24))
-console.log(givePercentageOfTimePeriod(d, dEndOfMonth, list[d.getMonth()], 24))
-console.log(givePercentageOfTimePeriod(d, dEndOfWeek, 7, 24))
-console.log(givePercentageOfTimePeriod(d, dEndOfDay, 1, 24))
-console.log(givePercentageOfTimePeriod(d, dEndOfWorkDay, 1, 8))
+console.log(givePercentageOfTimePeriod(dNow, dEndOfYear, 365, 24))
+console.log(givePercentageOfTimePeriod(dNow, dEndOfMonth, list[dNow.getMonth()], 24))
+console.log(givePercentageOfTimePeriod(dNow, dEndOfWeek, 7, 24))
+console.log(givePercentageOfTimePeriod(dNow, dEndOfDay, 1, 24))
+console.log(givePercentageOfTimePeriod(dNow, dEndOfWorkDay, 1, 8))
 
 // console.log("workDayStartHour"+"="+9+";"+ new Date(Date.now()+(10*365*24*60*60*1000)))
 // document.cookie = "workDayStartHour" + "=" + 9 + ";SameSite=Strict" + ";expires=" + new Date(Date.now() + (10 * 365 * 24 * 60 * 60 * 1000))
@@ -69,3 +71,14 @@ console.log(givePercentageOfTimePeriod(d, dEndOfWorkDay, 1, 8))
 
 // document.cookie.split(";")
 
+setTimeout(() => {
+    setInterval(updateTime, 1000)
+}, 1000 - new Date().getMilliseconds());
+
+function updateTime() {
+    console.log("working")
+    dNow = new Date(Date.now())
+    timeElement.textContent = dNow.toTimeString()
+    dateElement.textContent = dNow.toDateString()
+    dNow.setSeconds(dNow.getSeconds() + 1)
+}
