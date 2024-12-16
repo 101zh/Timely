@@ -3,7 +3,7 @@ function createElementFromHTML(htmlString) {
     div.innerHTML = htmlString.trim();
 
     // Change this to div.childNodes to support multiple top-level nodes.
-    return div.firstChild;
+    return div;
 }
 
 var timeElement = document.getElementById("time")
@@ -26,9 +26,11 @@ var content = `<div class="block">
 //     })
 //     .catch(error => console.error('Error:', error));
 
+var timePeriods = ["YEAR", "MONTH", "WEEK", "DAY", "WORKDAY"]
+var blocks = []
 
-for (let index = 0; index < 3; index++) {
-    container.appendChild(createElementFromHTML(content))
+for (let index = 0; index < 5; index++) {
+    blocks[index] = container.appendChild(createElementFromHTML(content))
 }
 
 const list = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -59,11 +61,18 @@ function givePercentageOfTimePeriod(dateStart, dateEnd, days, hoursPerDay) {
     return percentage
 }
 
-console.log(givePercentageOfTimePeriod(dNow, dEndOfYear, 365, 24))
-console.log(givePercentageOfTimePeriod(dNow, dEndOfMonth, list[dNow.getMonth()], 24))
-console.log(givePercentageOfTimePeriod(dNow, dEndOfWeek, 7, 24))
-console.log(givePercentageOfTimePeriod(dNow, dEndOfDay, 1, 24))
-console.log(givePercentageOfTimePeriod(dNow, dEndOfWorkDay, 1, 8))
+
+
+function calculateTimePercentages() {
+    var timePercentages = []
+    timePercentages[0] = givePercentageOfTimePeriod(dNow, dEndOfYear, 365, 24)
+    timePercentages[1] = givePercentageOfTimePeriod(dNow, dEndOfMonth, list[dNow.getMonth()], 24)
+    timePercentages[2] = givePercentageOfTimePeriod(dNow, dEndOfWeek, 7, 24)
+    timePercentages[3] = givePercentageOfTimePeriod(dNow, dEndOfDay, 1, 24)
+    timePercentages[4] = givePercentageOfTimePeriod(dNow, dEndOfWorkDay, 1, 8)
+
+    return timePercentages
+}
 
 // console.log("workDayStartHour"+"="+9+";"+ new Date(Date.now()+(10*365*24*60*60*1000)))
 // document.cookie = "workDayStartHour" + "=" + 9 + ";SameSite=Strict" + ";expires=" + new Date(Date.now() + (10 * 365 * 24 * 60 * 60 * 1000))
@@ -81,4 +90,13 @@ function updateTime() {
     timeElement.textContent = dNow.toTimeString()
     dateElement.textContent = dNow.toDateString()
     dNow.setSeconds(dNow.getSeconds() + 1)
+}
+
+for (let index = 0; index < blocks.length; index++) {
+    var block = blocks[index]
+    var percentage = calculateTimePercentages()[index]
+    percentage = Math.round(percentage * 10000) / 100 + "%"
+    block.querySelector(".descrip").textContent = timePeriods[index]
+    block.querySelector(".percent").textContent = percentage
+    block.querySelector(".progressbar").querySelector("div").style.width = percentage;
 }
