@@ -51,7 +51,6 @@ var minutesToSeconds = 60
 var secondsInAWeek = 7 * 24 * 60 * 60
 var secondsInADay = 24 * 60 * 60
 
-
 function givePercentageOfTimePeriod(dateStart, dateEnd, days, hoursPerDay) {
     var percentage = 1 - (((dateEnd.getTime() - dateStart.getTime()) / 1000) / (days * hoursPerDay * 60 * 60))
     if (percentage > 1) {
@@ -60,8 +59,6 @@ function givePercentageOfTimePeriod(dateStart, dateEnd, days, hoursPerDay) {
 
     return percentage
 }
-
-
 
 function calculateTimePercentages() {
     var timePercentages = []
@@ -74,29 +71,42 @@ function calculateTimePercentages() {
     return timePercentages
 }
 
+
 // console.log("workDayStartHour"+"="+9+";"+ new Date(Date.now()+(10*365*24*60*60*1000)))
 // document.cookie = "workDayStartHour" + "=" + 9 + ";SameSite=Strict" + ";expires=" + new Date(Date.now() + (10 * 365 * 24 * 60 * 60 * 1000))
 
 
 // document.cookie.split(";")
 
+updatePercentageBars()
+updateTime()
+
 setTimeout(() => {
     setInterval(updateTime, 1000)
 }, 1000 - new Date().getMilliseconds());
 
+
+setTimeout(() => {
+    setInterval(updatePercentageBars, 30000)
+}, 1000 - new Date().getMilliseconds());
+
 function updateTime() {
-    console.log("working")
+    console.log("update current time")
     dNow = new Date(Date.now())
     timeElement.textContent = dNow.toTimeString()
     dateElement.textContent = dNow.toDateString()
     dNow.setSeconds(dNow.getSeconds() + 1)
 }
 
-for (let index = 0; index < blocks.length; index++) {
-    var block = blocks[index]
-    var percentage = calculateTimePercentages()[index]
-    percentage = Math.round(percentage * 10000) / 100 + "%"
-    block.querySelector(".descrip").textContent = timePeriods[index]
-    block.querySelector(".percent").textContent = percentage
-    block.querySelector(".progressbar").querySelector("div").style.width = percentage;
+function updatePercentageBars() {
+    console.log("update percentage bars")
+    var percentages = calculateTimePercentages()
+    for (let index = 0; index < blocks.length; index++) {
+        var block = blocks[index]
+        var percentage = Math.round(percentages[index] * 10000) / 100 + "%"
+        block.querySelector(".descrip").textContent = timePeriods[index]
+        block.querySelector(".percent").textContent = percentage
+        block.querySelector(".progressbar").querySelector("div").style.width = percentage;
+    }
 }
+
