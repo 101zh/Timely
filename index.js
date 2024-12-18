@@ -42,14 +42,14 @@ var timeJsonString = `{
     ]
 }`
 
-var timeAssetDict = JSON.parse(timeJsonString)
-
 // fetch('../assets/timeAssets/time.json')
 //     .then(response => response.text())
 //     .then(textContent => {
 //         timeJsonString = textContent
 //     })
 //     .catch(error => console.error('Error:', error));
+
+var timeAssetDict = JSON.parse(timeJsonString)
 
 var timePeriods = timeAssetDict["timePeriods"]
 var blocks = []
@@ -99,10 +99,16 @@ function updatePercentageBars() {
     var percentages = calculateTimePercentages()
     for (let index = 0; index < blocks.length; index++) {
         var block = blocks[index]
-        var percentage = Math.round(percentages[index] * 10000) / 100 + "%"
+        var percentage = percentages[index]
         block.querySelector(".descrip").textContent = timePeriods[index]
-        block.querySelector(".percent").textContent = percentage
-        block.querySelector(".progressbar").querySelector("div").style.width = percentage;
+        if (percentage > 1) {
+            block.querySelector(".percent").textContent = "Complete!"
+            block.querySelector(".progressbar").querySelector("div").style.width = "100%";
+        } else {
+            var percentageString = Math.round(percentage * 10000) / 100 + "%"
+            block.querySelector(".percent").textContent = percentageString
+            block.querySelector(".progressbar").querySelector("div").style.width = percentageString;
+        }
     }
 }
 
@@ -119,9 +125,6 @@ function updatePercentageBars() {
  */
 function givePercentageOfTimePeriod(dateNow, dateEnd, days, hours) {
     var percentage = 1 - (((dateEnd.getTime() - dateNow.getTime()) / 1000) / (days * hours * 60 * 60))
-    if (percentage > 1) {
-        return -1
-    }
 
     return percentage
 }
