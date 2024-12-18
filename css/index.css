@@ -66,7 +66,10 @@ h1 {
 .block {
     display: flex;
     flex-direction: column;
-    background-color: darkslategray;
+    background-color: #080808;
+    outline-width: 0.1rem;
+    outline-style: solid;
+    outline-color: #737373;
     margin: 1rem;
     border-radius: 2rem;
     min-width: 16rem;
