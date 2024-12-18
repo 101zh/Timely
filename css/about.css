@@ -1,0 +1,26 @@
+#sidebar {
+    flex-grow: 1;
+}
+
+#lineSeparator {
+    background-color: white;
+    margin: 1rem;
+    margin-top: 2rem;
+    margin-right: 2rem;
+    height: 100%;
+    width: 0.1rem;
+}
+
+#aboutParagraph {
+    flex-grow: 3;
+}
+
+#aboutContainer {
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    height: 40rem;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+}
