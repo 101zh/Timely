@@ -9,6 +9,8 @@ h1 {
 /* Navigation Bar Stuff */
 
 .navButton {
+    text-decoration: none;
+    color: white;
     padding: 1rem;
 }
 
