@@ -1,6 +1,6 @@
-var timeElement = document.getElementById("time")
-var dateElement = document.getElementById("date")
-var container = document.getElementById("blockcontainer");
+const timeElement = document.getElementById("time")
+const dateElement = document.getElementById("date")
+const container = document.getElementById("blockcontainer");
 
 var content = `<div class="block">
     <div class="descrip">DAY</div>
@@ -11,21 +11,54 @@ var content = `<div class="block">
 </div>
 `
 
-// fetch('prefab.html')
+// fetch('../assets/htmlAssets/prefab.html')
 //     .then(response => response.text())
 //     .then(textContent => {
 //         content = textContent
 //     })
 //     .catch(error => console.error('Error:', error));
 
-var timePeriods = ["YEAR", "MONTH", "WEEK", "DAY", "WORKDAY"]
+var timeJsonString = `{
+    "monthDays": [
+        31,
+        29,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31
+    ],
+    "timePeriods": [
+        "YEAR",
+        "MONTH",
+        "WEEK",
+        "DAY",
+        "WORKDAY"
+    ]
+}`
+
+var timeAssetDict = JSON.parse(timeJsonString)
+
+// fetch('../assets/timeAssets/time.json')
+//     .then(response => response.text())
+//     .then(textContent => {
+//         timeJsonString = textContent
+//     })
+//     .catch(error => console.error('Error:', error));
+
+var timePeriods = timeAssetDict["timePeriods"]
 var blocks = []
 
 for (let index = 0; index < 5; index++) {
     blocks[index] = container.appendChild(createElementFromHTML(content))
 }
 
-const list = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+const monthDays = timeAssetDict["monthDays"]
 
 var dNow = new Date(Date.now())
 var dEndOfYear = new Date(dNow.getFullYear() + 1, 0)
@@ -34,15 +67,6 @@ var dEndOfWeek = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + 
 var dEndOfDay = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + 1)
 var dEndOfWorkDay = (new Date(dNow.getTime()));
 dEndOfWorkDay.setHours(16, 0, 0, 0);
-
-var weeksToDays = 7
-var daysToHours = 24
-var hoursToMinutes = 60
-var minutesToSeconds = 60
-
-var secondsInAWeek = 7 * 24 * 60 * 60
-var secondsInADay = 24 * 60 * 60
-
 
 // console.log("workDayStartHour"+"="+9+";"+ new Date(Date.now()+(10*365*24*60*60*1000)))
 // document.cookie = "workDayStartHour" + "=" + 9 + ";SameSite=Strict" + ";expires=" + new Date(Date.now() + (10 * 365 * 24 * 60 * 60 * 1000))
@@ -109,7 +133,7 @@ function givePercentageOfTimePeriod(dateNow, dateEnd, days, hours) {
 function calculateTimePercentages() {
     var timePercentages = []
     timePercentages[0] = givePercentageOfTimePeriod(dNow, dEndOfYear, 365, 24)
-    timePercentages[1] = givePercentageOfTimePeriod(dNow, dEndOfMonth, list[dNow.getMonth()], 24)
+    timePercentages[1] = givePercentageOfTimePeriod(dNow, dEndOfMonth, monthDays[dNow.getMonth()], 24)
     timePercentages[2] = givePercentageOfTimePeriod(dNow, dEndOfWeek, 7, 24)
     timePercentages[3] = givePercentageOfTimePeriod(dNow, dEndOfDay, 1, 24)
     timePercentages[4] = givePercentageOfTimePeriod(dNow, dEndOfWorkDay, 1, 8)

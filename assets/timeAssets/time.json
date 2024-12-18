@@ -1,0 +1,23 @@
+{
+    "monthDays": [
+        31,
+        29,
+        31,
+        30,
+        31,
+        30,
+        31,
+        31,
+        30,
+        31,
+        30,
+        31
+    ],
+    "timePeriods": [
+        "YEAR",
+        "MONTH",
+        "WEEK",
+        "DAY",
+        "WORKDAY"
+    ]
+}
