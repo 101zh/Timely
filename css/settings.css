@@ -22,4 +22,6 @@
     flex-direction: row;
     height: 3rem;
     align-items: center;
+    margin: 0.75rem;
+    margin-left: 2.5rem;
 }
