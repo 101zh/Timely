@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="../css/index.css">
     <link rel="stylesheet" href="../css/font.css">
-    <link rel="stylesheet" href="../css/about.css">
+    <link rel="stylesheet" href="../css/settings.css">
 
 </head>
 
@@ -23,22 +23,14 @@
         <a class="navButton" href="https://101zh.github.io/">101zh</a>
     </nav>
 
-    <div id="aboutContainer">
-        <div id="sidebar">
-            <h2>About Author</h2>
-            <p>Author: 101zh</p>
-            <p>I like to make cool stuff!</p>
-        </div>
-        <div id="lineSeparator"></div>
-        <div id="aboutParagraph">
-            <h2>What is Timely?</h2>
-            <p>Yes</p>
-            <h2>Why Make Timely?</h2>
-            <p>Yes</p>
+    <div>
+        <div class="settingOption" id="workDayHours">
+            <input class="time" id="start" type="time"> - <input class="time" id="end" type="time">
+            <input class="button" type="button" value="Submit">
         </div>
     </div>
 
-
+    <script src="../js/settings.js"></script>
 </body>
 
 </html>

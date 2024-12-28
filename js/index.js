@@ -65,14 +65,17 @@ var dEndOfYear = new Date(dNow.getFullYear() + 1, 0)
 var dEndOfMonth = new Date(dNow.getFullYear(), dNow.getMonth() + 1)
 var dEndOfWeek = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + (8 - dNow.getDay()))
 var dEndOfDay = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + 1)
+
+var workDayCookieValues = ["09:00", "17:00"]
+
+var dStartOfWorkDay = (new Date(dNow.getTime()));
 var dEndOfWorkDay = (new Date(dNow.getTime()));
-dEndOfWorkDay.setHours(16, 0, 0, 0);
+var startOfWorkDayTime = workDayCookieValues[0].split(":");
+var endOfWorkDayTime = workDayCookieValues[1].split(":");
+dStartOfWorkDay.setHours(startOfWorkDayTime[0], startOfWorkDayTime[1], 0, 0);
+dEndOfWorkDay.setHours(endOfWorkDayTime[0], endOfWorkDayTime[1], 0, 0);
 
-// console.log("workDayStartHour"+"="+9+";"+ new Date(Date.now()+(10*365*24*60*60*1000)))
-// document.cookie = "workDayStartHour" + "=" + 9 + ";SameSite=Strict" + ";expires=" + new Date(Date.now() + (10 * 365 * 24 * 60 * 60 * 1000))
 
-
-// document.cookie.split(";")
 
 updatePercentageBars()
 updateTime()
@@ -112,6 +115,8 @@ function updatePercentageBars() {
     }
 }
 
+console.log(getCookie("workDayStartHour"))
+
 
 // ----------------------Helper Methods----------------------
 
@@ -121,10 +126,11 @@ function updatePercentageBars() {
  * @param {Date} dateEnd The end time of the time period as a date object
  * @param {number} days The number of days in the time period
  * @param {number} hours the number of hours in the time period if `days==1`
+ * @param {number} extraMinutes the number of extra minutes after the end of an hour
  * @returns {number} The percentage of the time period the current time is at as a decimal
  */
-function givePercentageOfTimePeriod(dateNow, dateEnd, days, hours) {
-    var percentage = 1 - (((dateEnd.getTime() - dateNow.getTime()) / 1000) / (days * hours * 60 * 60))
+function givePercentageOfTimePeriod(dateNow, dateEnd, days, hours, extraMinutes) {
+    var percentage = 1 - (((dateEnd.getTime() - dateNow.getTime()) / 1000) / (days * hours * 60 * 60 + (extraMinutes * 60)))
 
     return percentage
 }
@@ -135,11 +141,12 @@ function givePercentageOfTimePeriod(dateNow, dateEnd, days, hours) {
  */
 function calculateTimePercentages() {
     var timePercentages = []
-    timePercentages[0] = givePercentageOfTimePeriod(dNow, dEndOfYear, 365, 24)
-    timePercentages[1] = givePercentageOfTimePeriod(dNow, dEndOfMonth, monthDays[dNow.getMonth()], 24)
-    timePercentages[2] = givePercentageOfTimePeriod(dNow, dEndOfWeek, 7, 24)
-    timePercentages[3] = givePercentageOfTimePeriod(dNow, dEndOfDay, 1, 24)
-    timePercentages[4] = givePercentageOfTimePeriod(dNow, dEndOfWorkDay, 1, 8)
+    timePercentages[0] = givePercentageOfTimePeriod(dNow, dEndOfYear, 365, 24, 0)
+    timePercentages[1] = givePercentageOfTimePeriod(dNow, dEndOfMonth, monthDays[dNow.getMonth()], 24, 0)
+    timePercentages[2] = givePercentageOfTimePeriod(dNow, dEndOfWeek, 7, 24, 0)
+    timePercentages[3] = givePercentageOfTimePeriod(dNow, dEndOfDay, 1, 24, 0)
+    timePercentages[4] = givePercentageOfTimePeriod(dNow, dEndOfWorkDay, 1, dEndOfWorkDay.getHours() - dStartOfWorkDay.getHours(), dEndOfWorkDay.getMinutes() - dStartOfWorkDay.getMinutes())
+
 
     return timePercentages
 }
@@ -154,4 +161,29 @@ function createElementFromHTML(htmlString) {
     div.innerHTML = htmlString.trim();
 
     return div;
+}
+
+function getCookie(cookieName) {
+    var name = cookieName + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i].trim();
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
+}
+
+function getWorkDayHours() {
+    var startHour = getCookie("workDayStartHour")
+    var endHour = getCookie("workDayEndHour")
+
+    if (startHour.length <= 0) {
+        startHour = "09:00"
+    }
+    if (endHour.length <= 0) {
+        endHour = "17:00"
+    }
+
+
+    return [startHour, endHour]
 }
