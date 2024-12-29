@@ -14,7 +14,7 @@ First before working on any changes, please ask to be assigned to an issue that 
 
 ### How to Start Working on This Project
 
-Start by having the tools available to design a webpage. At a minimum have a text editor and a browser that can open html files.
+Start by having the tools available to design a webpage. At a minimum have a text editor, a browser that can visit localhost addresses, and a software that can host local http \(or https\) servers on your device.
 
 ### Source Control
 
