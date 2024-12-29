@@ -2,52 +2,23 @@ const timeElement = document.getElementById("time")
 const dateElement = document.getElementById("date")
 const container = document.getElementById("blockcontainer");
 
-var content = `<div class="block">
-    <div class="descrip">DAY</div>
-    <div class="percent">50%</div>
-    <div class="progressbar">
-        <div></div>
-    </div>
-</div>
-`
+var content = ""
 
-// fetch('../assets/htmlAssets/prefab.html')
-//     .then(response => response.text())
-//     .then(textContent => {
-//         content = textContent
-//     })
-//     .catch(error => console.error('Error:', error));
+fetch('../assets/htmlAssets/prefab.html')
+    .then(response => response.text())
+    .then(textContent => {
+        content = textContent
+    })
+    .catch(error => console.error('Error:', error));
 
-var timeJsonString = `{
-    "monthDays": [
-        31,
-        29,
-        31,
-        30,
-        31,
-        30,
-        31,
-        31,
-        30,
-        31,
-        30,
-        31
-    ],
-    "timePeriods": [
-        "YEAR",
-        "MONTH",
-        "WEEK",
-        "DAY",
-        "WORKDAY"
-    ]
-}`
+var timeJsonString = ""
 
-// fetch('../assets/timeAssets/time.json')
-//     .then(response => response.text())
-//     .then(textContent => {
-//         timeJsonString = textContent
-//     })
-//     .catch(error => console.error('Error:', error));
+fetch('../assets/timeAssets/time.json')
+    .then(response => response.text())
+    .then(textContent => {
+        timeJsonString = textContent
+    })
+    .catch(error => console.error('Error:', error));
 
 var timeAssetDict = JSON.parse(timeJsonString)
 
@@ -66,7 +37,7 @@ var dEndOfMonth = new Date(dNow.getFullYear(), dNow.getMonth() + 1)
 var dEndOfWeek = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + (8 - dNow.getDay()))
 var dEndOfDay = new Date(dNow.getFullYear(), dNow.getMonth(), dNow.getDate() + 1)
 
-var workDayCookieValues = ["09:00", "17:00"]
+var workDayCookieValues = getWorkDayHours()
 
 var dStartOfWorkDay = (new Date(dNow.getTime()));
 var dEndOfWorkDay = (new Date(dNow.getTime()));
@@ -74,7 +45,6 @@ var startOfWorkDayTime = workDayCookieValues[0].split(":");
 var endOfWorkDayTime = workDayCookieValues[1].split(":");
 dStartOfWorkDay.setHours(startOfWorkDayTime[0], startOfWorkDayTime[1], 0, 0);
 dEndOfWorkDay.setHours(endOfWorkDayTime[0], endOfWorkDayTime[1], 0, 0);
-
 
 
 updatePercentageBars()
@@ -114,8 +84,6 @@ function updatePercentageBars() {
         }
     }
 }
-
-console.log(getCookie("workDayStartHour"))
 
 
 // ----------------------Helper Methods----------------------
