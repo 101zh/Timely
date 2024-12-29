@@ -2,34 +2,34 @@ const timeElement = document.getElementById("time")
 const dateElement = document.getElementById("date")
 const container = document.getElementById("blockcontainer");
 
-var content = ""
+var timeBlockPrefab = ""
+var timeBlocks = []
 
 fetch('../assets/htmlAssets/prefab.html')
     .then(response => response.text())
     .then(textContent => {
-        content = textContent
+        timeBlockPrefab = textContent
+        for (let index = 0; index < 5; index++) {
+            timeBlocks[index] = container.appendChild(createElementFromHTML(timeBlockPrefab))
+        }
     })
     .catch(error => console.error('Error:', error));
 
-var timeJsonString = ""
+var timeAssetDict = {}
+var timePeriods = timeAssetDict["timePeriods"]
+var monthDays = timeAssetDict["monthDays"]
 
 fetch('../assets/timeAssets/time.json')
     .then(response => response.text())
     .then(textContent => {
-        timeJsonString = textContent
+        timeAssetDict = JSON.parse(textContent)
+        timePeriods = timeAssetDict["timePeriods"]
+        monthDays = timeAssetDict["monthDays"]
+        updatePercentageBars()
+        updateTime()
     })
     .catch(error => console.error('Error:', error));
 
-var timeAssetDict = JSON.parse(timeJsonString)
-
-var timePeriods = timeAssetDict["timePeriods"]
-var blocks = []
-
-for (let index = 0; index < 5; index++) {
-    blocks[index] = container.appendChild(createElementFromHTML(content))
-}
-
-const monthDays = timeAssetDict["monthDays"]
 
 var dNow = new Date(Date.now())
 var dEndOfYear = new Date(dNow.getFullYear() + 1, 0)
@@ -45,10 +45,6 @@ var startOfWorkDayTime = workDayCookieValues[0].split(":");
 var endOfWorkDayTime = workDayCookieValues[1].split(":");
 dStartOfWorkDay.setHours(startOfWorkDayTime[0], startOfWorkDayTime[1], 0, 0);
 dEndOfWorkDay.setHours(endOfWorkDayTime[0], endOfWorkDayTime[1], 0, 0);
-
-
-updatePercentageBars()
-updateTime()
 
 setTimeout(() => {
     setInterval(updateTime, 1000)
@@ -70,8 +66,8 @@ function updateTime() {
 function updatePercentageBars() {
     console.log("update percentage bars")
     var percentages = calculateTimePercentages()
-    for (let index = 0; index < blocks.length; index++) {
-        var block = blocks[index]
+    for (let index = 0; index < timeBlocks.length; index++) {
+        var block = timeBlocks[index]
         var percentage = percentages[index]
         block.querySelector(".descrip").textContent = timePeriods[index]
         if (percentage > 1) {
