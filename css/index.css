@@ -12,6 +12,8 @@ h1 {
     text-decoration: none;
     color: white;
     padding: 1rem;
+    justify-content: center;
+    min-width: 2.1rem;
 }
 
 #logo {
@@ -22,7 +24,7 @@ h1 {
 #navbar {
     display: flex;
     flex-direction: row;
-    max-height: 5rem;
+    max-height: 4rem;
 }
 
 /* Content Stuff */
@@ -57,7 +59,6 @@ h1 {
 }
 
 .percent {
-
     text-align: center;
     margin-top: 0.25rem;
     margin-bottom: 0.25rem;
@@ -100,4 +101,10 @@ h1 {
     height: 100%;
     /*how round the element is*/
     border-radius: 2rem;
+}
+
+#gearIcon{
+    margin: auto;
+    display: block;
+    text-align: center;
 }
