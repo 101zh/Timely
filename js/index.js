@@ -5,7 +5,7 @@ const container = document.getElementById("blockcontainer");
 var timeBlockPrefab = ""
 var timeBlocks = []
 
-fetch('../assets/htmlAssets/prefab.html')
+fetch('assets/htmlAssets/prefab.html')
     .then(response => response.text())
     .then(textContent => {
         timeBlockPrefab = textContent
@@ -19,7 +19,7 @@ var timeAssetDict = {}
 var timePeriods = timeAssetDict["timePeriods"]
 var monthDays = timeAssetDict["monthDays"]
 
-fetch('../assets/timeAssets/time.json')
+fetch('assets/timeAssets/time.json')
     .then(response => response.text())
     .then(textContent => {
         timeAssetDict = JSON.parse(textContent)
